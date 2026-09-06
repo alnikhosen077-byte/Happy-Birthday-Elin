@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday, Elin! 🕊️🩵</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { font-family: 'Anek Bangla', sans-serif; background-color: #f4f9f9; color: #2c3e50; overflow-x: hidden; }
+
+        /* Welcome Countdown Overlay */
+        #countdown-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .countdown-number {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: pulse 1s infinite;
+        }
+
+        .balloon-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0; left: 0;
+            pointer-events: auto;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 60px;
+            height: 75px;
+            background-color: #ff4081;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            cursor: pointer;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Music Floating Control */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #0288d1;
+            color: #0288d1;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-family: 'Anek Bangla', sans-serif;
+            transition: 0.3s;
+        }
+        .music-btn:hover { background: #0288d1; color: #fff; }
+
+        /* Section & Card Styling */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 35px 25px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            max-width: 680px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: transform 0.4s ease;
+        }
+
+        #sec1 { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); }
+        #sec2 { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+        #sec3 { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+        #sec4 { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+        #sec5 { background: linear-gradient(135deg, #ede7f6, #d1c4e9); }
+        #sec6 { background: linear-gradient(135deg, #e0f2f1, #b2dfdb); }
+        #sec7 { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+        #sec8 { background: linear-gradient(135deg, #bbdefb, #90caf9); }
+
+        h1 { font-size: 2.5rem; color: #0288d1; margin-bottom: 12px; }
+        h2 { font-size: 1.9rem; color: #37474f; margin-bottom: 15px; }
+        p { font-size: 1.2rem; line-height: 1.8; color: #455a64; margin-bottom: 15px; }
+        .icon { font-size: 3.2rem; margin-bottom: 10px; }
+
+        .story-img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 15px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .envelope-btn {
+            background: #0288d1;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(2, 136, 209, 0.3);
+            transition: 0.3s;
+            font-family: 'Anek Bangla', sans-serif;
+            margin-top: 10px;
+        }
+        
+        .letter-content {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 16px;
+            border-left: 5px solid #0288d1;
+        }
+
+        .arrow {
+            position: absolute;
+            bottom: 20px;
+            font-size: 2rem;
+            color: #78909c;
+            text-decoration: none;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Countdown Overlay Screen -->
+    <div id="countdown-screen">
+        <h2 style="font-size: 2rem; margin-bottom: 20px; color: #fff;">পাখির সারপ্রাইজ তৈরি হচ্ছে... 🎈</h2>
+        <div class="countdown-number" id="num">3</div>
+        <p style="margin-top: 15px; font-size: 1.1rem; opacity: 0.9;">(বেলুনগুলোতে ট্যাপ করে ফাটাতে পারো! 🎈)</p>
+        <div class="balloon-container" id="balloons"></div>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://html5gamedata.com/audio/happy_birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-btn" id="mBtn" onclick="toggleMusic(event)">🎵 Music: ON</button>
+
+    <!-- Section 1: Hero Cover -->
+    <section id="sec1">
+        <div class="card">
+            <div class="icon">🕊️🩵</div>
+            <h1>শুভ ২০তম জন্মদিন, পাখি!</h1>
+            <p>আজ ৮ সেপ্টেম্বর—আমার জীবনের সবচেয়ে প্রিয় মানুষের শুভ জন্মদিন। স্ক্রোল করে আমাদের চার বছরের সুন্দর গল্পের ভেতর ঘুরে এসো...</p>
+            <button class="envelope-btn" onclick="fireConfetti()">উৎসর্গ 💖</button>
+        </div>
+        <a href="#sec2" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 2: First Meeting -->
+    <section id="sec2">
+        <div class="card">
+            <div class="icon">🏫✨</div>
+            <h2>অধ্যায় ১: সেই প্রথম ডাক</h2>
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600" alt="College Building" class="story-img">
+            <p>কলেজের প্রশাসনিক ভবনের সামনে দাঁড়িয়ে থাকা সেই দিনটার কথা মনে আছে? তুই হঠাৎ আমাকে ডাক দিলি... আর সেখান থেকেই শুরু হলো জীবনের সবচেয়ে সুন্দর বন্ধুত্বের পথচলা।</p>
+        </div>
+        <a href="#sec3" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 3: The Walk -->
+    <section id="sec3">
+        <div class="card">
+            <div class="icon">🚶‍♂️🚶‍♀️🛺</div>
+            <h2>অধ্যায় ২: জেলগেট পর্যন্ত হাঁটা</h2>
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" alt="Walking Memories" class="story-img">
+            <p>কলেজের সামনে দাঁড়িয়ে কথা বলা, তারপর তোর সাথে হাঁটতে হাঁটতে জেলগেট পর্যন্ত যাওয়া—যেখান থেকে তুই অটো ধরে বাসায় ফিরতিস। সেই অল্প পথটুকু আমার সারাদিনের সেরা সময় ছিল।</p>
+        </div>
+        <a href="#sec4" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 4: Exam Hall -->
+    <section id="sec4">
+        <div class="card">
+            <div class="icon">📝🎒</div>
+            <h2>অধ্যায় ৩: পরীক্ষা হলের স্মৃতি</h2>
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600" alt="Exam Study" class="story-img">
+            <p>একসাথে এক্সাম হলে বসা, নিজেদের মধ্যে দেখে লেখা আর ভাগাভাগি করে উত্তর মেলানো! পরীক্ষার চাপের মাঝেও তোর পাশে থাকাটা অন্যরকম আনন্দের ছিল।</p>
+        </div>
+        <a href="#sec5" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 5: Late Night Chats -->
+    <section id="sec5">
+        <div class="card">
+            <div class="icon">🌙📱</div>
+            <h2>অধ্যায় ৪: রাত জাগা আড্ডা ও মিষ্টি রাগ</h2>
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" alt="Late Night Chat" class="story-img">
+            <p>সারাদিন শুয়ে শুয়ে Messenger আর Insta-তে কথা বলা, মিষ্টি দুষ্টুমি, আর রাত গভীর হলে ঘুমোতে যাওয়া...</p>
+            <p>আর হ্যাঁ, কোনো কারণে আমার ওপর তোর একটু রাগ করা—আর সেই অভিমান ভাঙানোর জন্য আমার শত কসরত!</p>
+        </div>
+        <a href="#sec6" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 6: Personal Selfie Gallery -->
+    <section id="sec6">
+        <div class="card">
+            <div class="icon">📸🖼️</div>
+            <h2>অধ্যায় ৫: আমাদের সেলফির অ্যালবাম</h2>
+            <p>বিগত ৪ বছরের সুন্দর কিছু মুহূর্ত...</p>
+            <div class="gallery-grid">
+                <img src="selfie 1.jpg" alt="Our Selfie 1">
+                <img src="selfie 2.jpg" alt="Our Selfie 2">
+                <img src="selfie 3.jpg" alt="Our Selfie 3">
+                <img src="selfie 4.jpg" alt="Our Selfie 4">
+            </div>
+        </div>
+        <a href="#sec7" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 7: The Birthday Letter -->
+    <section id="sec7">
+        <div class="card">
+            <div class="icon">✉️🕊️</div>
+            <h2>অধ্যায় ৬: পাখির জন্য খোলা চিঠি</h2>
+            <button class="envelope-btn" onclick="toggleLetter()">চিঠিটি খোলো 💌</button>
+            
+            <div id="letter" class="letter-content">
+                <p><b>শুভ জন্মদিন, পাখি। 🕊️🩵</b></p><br>
+                <p>আজ ক্যালেন্ডারের পাতায় ৮ সেপ্টেম্বর—এই সুন্দর দিনটিতেই আমার জীবনের সবচেয়ে গুরুত্বপূর্ণ, সবচেয়ে প্রিয় মানুষটার জন্মদিন। আর হ্যাঁ, আজ আমার পাখির ২০তম জন্মদিন। ♡</p><br>
+                <p>ইলিন, আমার জীবনে তুই এতটা গুরুত্বপূর্ণ হয়ে ওঠার পেছনে কার অবদান বেশি, সেটা আমি জানি না। তবে এইটুকু বুঝেছি—আমার জীবনে তোর মতো আপন আর কেউ কখনও হয়ে ওঠেনি। দেখতে দেখতে আমাদের এই সুন্দর বন্ধুত্বের চারটা বছর পার হয়ে গেল। কলেজে যদি তুই আমাকে না ডাকতিস, তাহলে হয়তো আমাদের পরিচয়ই এত সুন্দর হতো না। মনে হয়, সৃষ্টিকর্তার ইচ্ছেতেই আমাদের এই বন্ধুত্বটা গড়ে উঠেছে।</p><br>
+                <p>জীবনে অনেক মানুষ দেখেছি, অনেককে চিনেছি। কিন্তু আমার দেখা সবচেয়ে সুন্দর মানুষ যদি কেউ হয়, তাহলে সেটা তুই। তোর জন্য আমার হৃদয়ের অন্তঃস্থল থেকে সবসময় ভালোবাসা আর সম্মান থাকবে, পাখি। 🩵</p><br>
+                <p>আজকের এই শুভ দিনে আল্লাহর কাছে আমার একটাই দোয়া—তুই সবসময় সুখে থাকিস, ভালো থাকিস। কোনো দুঃখ-কষ্ট যেন তোকে ছুঁতেও না পারে। তোর জীবনের প্রতিটা আগামী দিন আগের দিনের চেয়েও বেশি সুন্দর হোক, তোর সব স্বপ্ন পূরণ হোক। 🤍</p><br>
+                <p>পাখি, তুই এমন একজন মানুষ, যাকে ছাড়া আমার দিনগুলো অসম্পূর্ণ লাগে। তোর অনুপস্থিতি সত্যিই আমাকে অনেক কষ্ট দেয়। তাই আল্লাহর কাছে সবসময় একটা প্রার্থনাই করি—যত বছরই কেটে যাক না কেন, আমার জীবন থেকে 'ইলিন' নামটা যেন কখনও মলিন না হয়ে যায়। 🖤</p><br>
+                <p>আমাদের এই সুন্দর সম্পর্কটা যেন সবসময় এভাবেই টিকে থাকে—এই দোয়াই করি। পৃথিবীর সবচেয়ে সুখী মানুষদের একজন হ, সবসময় হাসিখুশি থাক, নিজের সব ইচ্ছেগুলো পূরণ কর। 🤍</p><br>
+                <p>অনেক ভালোবাসি তোরে, পাখি। 🩵 আজকের দিনটা সব দুঃখ-কষ্ট ভুলে অনেক সুন্দর করে কাটাস। কারণ আমার কাছে আজকের দিনটা খুবই গুরুত্বপূর্ণ—আজকের দিনেই আমার প্রিয় Bestiee, আমার ইলিন পৃথিবীতে এসেছিল। 💝</p><br>
+                <p>অনেক অনেক শুভেচ্ছা আর অনেক অনেক দোয়া রইল তোর জন্য।</p><br>
+                <p><b>শুভ জন্মদিন, ইলিন। 🕊️🩵✨</b></p>
+            </div>
+        </div>
+        <a href="#sec8" class="arrow">↓</a>
+    </section>
+
+    <!-- Section 8: Final Prayer -->
+    <section id="sec8">
+        <div class="card">
+            <div class="icon">🎈🎁</div>
+            <h2>অধ্যায় ৭: চিরন্তন প্রার্থনা</h2>
+            <p>যত বছরই কেটে যাক না কেন, আমার জীবন থেকে <b>'ইলিন'</b> নামটা যেন কখনও মলিন না হয়ে যায়।</p>
+            <p>পৃথিবীর সবচেয়ে সুখী মানুষ হ, সবসময় হাসিখুশি থাক। 🤍✨</p>
+            <button class="envelope-btn" onclick="fireConfetti()">Celebrate! 🎉</button>
+        </div>
+    </section>
+
+    <script>
+        // Countdown overlay logic
+        let count = 3;
+        const numElem = document.getElementById('num');
+        const overlay = document.getElementById('countdown-screen');
+        var music = document.getElementById("bg-music");
+
+        // Balloon generator
+        const balloonContainer = document.getElementById('balloons');
+        const colors = ['#ff4081', '#00e676', '#ffeb3b', '#00b0ff', '#e040fb'];
+
+        for(let i = 0; i < 15; i++) {
+            let b = document.createElement('div');
+            b.className = 'balloon';
+            b.style.left = Math.random() * 90 + '%';
+            b.style.animationDelay = Math.random() * 4 + 's';
+            b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            b.onclick = function() { this.style.display = 'none'; };
+            balloonContainer.appendChild(b);
+        }
+
+        let timer = setInterval(() => {
+            count--;
+            if(count > 0) {
+                numElem.innerText = count;
+            } else if(count === 0) {
+                numElem.innerText = "SURPRISE! 🎉";
+            } else {
+                clearInterval(timer);
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.visibility = 'hidden';
+                    music.play(); // Auto Play Music on Unlock
+                    fireConfetti();
+                }, 800);
+            }
+        }, 1200);
+
+        function toggleMusic(e) {
+            e.stopPropagation();
+            var mBtn = document.getElementById("mBtn");
+            if (music.paused) {
+                music.play();
+                mBtn.innerText = "🎵 Music: ON";
+            } else {
+                music.pause();
+                mBtn.innerText = "🔇 Music: OFF";
+            }
+        }
+
+        function fireConfetti() {
+            confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        }
+
+        function toggleLetter() {
+            var letter = document.getElementById("letter");
+            letter.style.display = (letter.style.display === "block") ? "none" : "block";
+            if(letter.style.display === "block") fireConfetti();
+        }
+    </script>
+</body>
+</html>
